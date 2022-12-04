@@ -1,0 +1,7 @@
+__pycache__
+.vscode
+*.jpg
+*.pt
+test.csv
+train.csv
+*.csv
