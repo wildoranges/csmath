@@ -68,8 +68,9 @@ def lower_bayes_fit_test(dim, model, train_features, train_label,
         normal_ys = normal_features[:,1]
         attack_xs = attack_features[:,0]
         attack_ys = attack_features[:,1]
-        plt.scatter(normal_xs, normal_ys, color='blue')
-        plt.scatter(attack_xs, attack_ys, color='red')
+        plt.scatter(normal_xs, normal_ys, c='blue', label='normal')
+        plt.scatter(attack_xs, attack_ys, c='red', label='attack')
+        plt.legend()
         plt.savefig('{}_2_dim.jpg'.format(prefix))
         
     bayes_model = bayes_fit(lower_features, train_label, clf)
@@ -90,12 +91,12 @@ class AutoEncoder(torch.nn.Module):
         
         self.encoder = torch.nn.Sequential(
             torch.nn.Linear(41, n, dtype=float),
-            torch.nn.ReLU(),
+            torch.nn.Tanh()
         )
         
         self.decoder = torch.nn.Sequential(
             torch.nn.Linear(n, 41, dtype=float),
-            torch.nn.ReLU()
+            torch.nn.Tanh()
         )
         
     def forward(self, x):
@@ -141,27 +142,27 @@ class KddCup99(torch.nn.Module):
 
         self.l1 = torch.nn.Sequential(
             torch.nn.Linear(41, 36, dtype=float),
-            torch.nn.ReLU()
+            torch.nn.Tanh()
         )
         
         self.l2 = torch.nn.Sequential(
             torch.nn.Linear(36, 24, dtype=float),
-            torch.nn.ReLU()
+            torch.nn.Tanh()
         )
         
         self.l3 = torch.nn.Sequential(
             torch.nn.Linear(24, 12, dtype=float),
-            torch.nn.ReLU()
+            torch.nn.Tanh()
         )
         
         self.l4 = torch.nn.Sequential(
             torch.nn.Linear(12, 6, dtype=float),
-            torch.nn.ReLU()
+            torch.nn.Tanh()
         )
         
         self.l5 = torch.nn.Sequential(
             torch.nn.Linear(6, 2, dtype=float),
-            torch.nn.ReLU()
+            torch.nn.Tanh()
         )
         
     def forward(self, x):
@@ -215,6 +216,9 @@ def test(model, test_loader, criterion, device):
     return (test_loss, )
 
 def train_test(model, dataloader, optimizer, epochs, criterion, test_loader, device):
+    epoch_pt = []
+    train_loss_pt = []
+    test_loss_pt = []
     for epoch in range(epochs):
         model.train()
         all_loss = []
@@ -232,10 +236,14 @@ def train_test(model, dataloader, optimizer, epochs, criterion, test_loader, dev
                 print('Train Epoch: {}/{} [{}/{}]\tLoss: {:.6f}'.format(
                     epoch + 1, epochs, idx * len(data), len(dataloader.dataset), loss.item()))
                 all_loss.append(float(loss.item()))
-        loss = sum(all_loss) / len(all_loss)
-        plt.scatter(epoch + 1, loss, color='red')
+        train_loss = sum(all_loss) / len(all_loss)
         test_loss = test(model, test_loader, criterion, device)[0]
-        plt.scatter(epoch + 1, test_loss, color='blue')
+        epoch_pt.append(epoch + 1)
+        train_loss_pt.append(train_loss)
+        test_loss_pt.append(test_loss)
+    plt.scatter(epoch_pt, train_loss_pt, c='red', label='train loss')
+    plt.scatter(epoch_pt, test_loss_pt, c='blue', label='test loss')
+    plt.legend()
     plt.xlabel("n_epochs")
     plt.ylabel("loss")
     time_string = strftime("%m-%d-%H-%M")
