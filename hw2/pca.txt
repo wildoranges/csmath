@@ -1,20 +1,20 @@
-after PCA to dim 32: precision: [0.76574273 0.99913688] 
+after lower to dim 32: precision: [0.76574273 0.99913688] 
 recall: [0.99678386 0.92429395] 
 f1score: [0.86612026 0.9602593 ] 
 accuracy: 0.9387114276926661
-after PCA to dim 16: precision: [0.7657397  0.99913688] 
+after lower to dim 16: precision: [0.7657397  0.99913688] 
 recall: [0.99678386 0.92429267] 
 f1score: [0.86611832 0.96025861] 
 accuracy: 0.9387104058758554
-after PCA to dim 8: precision: [0.7641473  0.99913625] 
+after lower to dim 8: precision: [0.7641473  0.99913625] 
 recall: [0.99678386 0.92361921] 
 f1score: [0.86509878 0.95989475] 
 accuracy: 0.9381708865997922
-after PCA to dim 4: precision: [0.46723869 0.99851382] 
+after lower to dim 4: precision: [0.46723869 0.99851382] 
 recall: [0.99569468 0.71813609] 
 f1score: [0.6360195  0.83542812] 
 accuracy: 0.7733395732279909
-after PCA to dim 2: precision: [0.19861493 0.05292479] 
+after lower to dim 2: precision: [0.19861493 0.05292479] 
 recall: [9.98253212e-01 2.42345084e-05] 
 f1score: [3.31311337e-01 4.84468328e-05] 
 accuracy: 0.19856148629386022

@@ -90,13 +90,16 @@ class AutoEncoder(torch.nn.Module):
         super().__init__()
         
         self.encoder = torch.nn.Sequential(
-            torch.nn.Linear(41, n, dtype=float),
+            torch.nn.Linear(41, 16, dtype=float),
+            torch.nn.Tanh(),
+            torch.nn.Linear(16, n, dtype=float),
             torch.nn.Tanh()
         )
         
         self.decoder = torch.nn.Sequential(
-            torch.nn.Linear(n, 41, dtype=float),
-            torch.nn.Tanh()
+            torch.nn.Linear(n, 16, dtype=float),
+            torch.nn.Tanh(),
+            torch.nn.Linear(16, 41, dtype=float)
         )
         
     def forward(self, x):
